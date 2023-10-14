@@ -17,11 +17,11 @@ def summed(matrix, row1, row2):
 
     return result
 
-# result = [
-#     {0: [0, 1], 1: [2, 3], 2: [4, 5]},
-#     {0: [0, 1, 2, 3], 1: [4, 5]},
-#     {0: [0, 1, 2], 1: [3, 4, 5]}
-# ]
-#
-# combined_result = summed(result, 0, 1)
-# print(combined_result)
+result = [
+    {0: [0, 1], 1: [2, 3], 2: [4, 5]},
+    {0: [0, 1, 2, 3], 1: [4, 5]},
+    {0: [0, 1, 2], 1: [3, 4, 5]}
+]
+
+combined_result = summed(result, 0, 1)
+print(combined_result)

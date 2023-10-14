@@ -64,13 +64,14 @@ def generate_CFDs(Relation_R, current_level_k, level_n, ):
 def main():
     Tree = BFSTree()
     Tree.generate_combination_tree(3)
-    matrix = [[0, 0, 1, 1, 2, 2], [1, 1, 0, 0, 1, 1], [0, 0, 0, 1, 1, 1]]
+    matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
     result = create_value_index_dict(matrix)
 
-    print(result)
-    combined_result = summed(result, 0, 1)
-    print(combined_result)
-
+    # print(result)
+    # combined_result = summed(result, 0, 1)
+    # print(combined_result)
+    # Tree.print_tree()
+    Tree.bfs_traversal()
     # for row in result:
     #     print(row)
     # tree = Node(-1)
