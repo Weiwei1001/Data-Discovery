@@ -1,4 +1,5 @@
 from summed import *
+from Interest import *
 
 class TreeNode:
     def __init__(self, value, parent=None):
@@ -8,11 +9,13 @@ class TreeNode:
 
 
 class BFSTree:
-    def __init__(self, raw):
+    def __init__(self, raw, threshold):
         self.root = None
         self.CFDS = None
+        self.FDS = {}
         self.res = {}
         self.raw = raw
+        self.interest = Interest(threshold)
     def generate_combination_tree(self, n):
         # 创建根节点
         self.root = TreeNode(set())
@@ -56,6 +59,18 @@ class BFSTree:
         print("  " * depth + str(node.value))
         for child in node.children:
             self.print_tree(child, depth + 1)
+
+
+    def Rule1(self, X, Y):
+        FDKeys = list(self.FDS.keys())
+        for FD in FDKeys:
+            if set(FD[1]).difference(set(FD[0])) == Y:
+                return set(FD[0]).issubset(X)
+        return False
+
+    def Rule2(self):
+        return False
+
     def bfs_traversal(self):
         if self.root is None:
             return
@@ -66,8 +81,6 @@ class BFSTree:
 
             current_node = queue.pop(0)
             # print(current_node.value)  # 处理当前节点的值
-
-            # 将当前节点的子节点加入队列
             for child in current_node.children:
                 queue.append(child)
                 current_node_v = current_node.value
@@ -81,10 +94,7 @@ class BFSTree:
                         index2 = CFD[1]
                         print("index:")
                         print(CFD)
-                        # print(index1)
-                        # print(index2)
-                        # #((0,), (0, 1))
-                        # print(type(index1))
+
                         X = self.res[tuple(index1)]
                         Y = self.res[tuple(index2.difference(index1))]
                         #first find if the summed list is in res
@@ -96,9 +106,28 @@ class BFSTree:
 
                         return summed(X,Y)
 
-                    self.res[tuple(child_v)] = get_OX(CFD)
 
-                    # CFDS.add((tuple(current_node.value), tuple(child.value)))
+                    def isFD(X,Y):
+                        tempX = list(X.values())
+                        tempY = list(Y.values())
+                        if len(X) != len(Y):
+                            return False
+                        for i in range(len(tempX)):
+                            if tempY[i] != tempX[i]:
+                                return False
+
+                        return True
+
+                    candidate = get_OX(CFD)
+                    # print(self.res[tuple(current_node_v)])
+                    print(candidate)
+                    self.interest.support(self.res[tuple(current_node_v)], candidate)
+
+                    self.res[tuple(child_v)] = candidate
+                    if isFD(self.res[tuple(current_node_v)], candidate):
+                        if not self.Rule1(current_node_v,child_v.difference(current_node_v)):
+                            self.FDS[(tuple(current_node_v), tuple(child_v))] = candidate
+
 
         def remove_duplicates(input_list):
             seen = set()
@@ -111,11 +140,18 @@ class BFSTree:
         # print(CFDS)
         # print("pp")
         # self.CFDS = remove_duplicates(CFDS)
+
+        #check for CFDS
         print(CFDS)
         print(len(CFDS))
         print(len(self.res))
         for item in self.res:
             print(item, self.res[item])
+
+        #check for FDs
+        # for item in self.FDS:
+        #     print(item)
+
 
 
 

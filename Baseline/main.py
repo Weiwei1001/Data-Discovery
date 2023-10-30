@@ -1,4 +1,5 @@
 from BFSTree import *
+from mapping import *
 from summed import summed
 # def find_CFD(OX, X, Y, k):
 #     if k >= 2:
@@ -64,11 +65,12 @@ def generate_CFDs(Relation_R, current_level_k, level_n, ):
 def main():
 
     matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
+    matrix =
     result = create_value_index_dict(matrix)
     print(result)
 
 
-    Tree = BFSTree(matrix)
+    Tree = BFSTree(matrix, 0.3)
     Tree.generate_combination_tree(3)
     Tree.bfs_traversal()
     # for row in result:
