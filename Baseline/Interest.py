@@ -2,6 +2,7 @@ class Interest:
     def __init__(self, threshold):
         self.threshold = threshold
     def support(self, X, Y):
+
         keyX = list(X.keys())
         keyY = list(Y.keys())
         # print(keyX)

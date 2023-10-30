@@ -65,7 +65,7 @@ def generate_CFDs(Relation_R, current_level_k, level_n, ):
 def main():
 
     matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
-    matrix =
+    # matrix = mapData('/Users/xuzhongwei/Berkeley/DataDiscovery/adult/adult.data')
     result = create_value_index_dict(matrix)
     print(result)
 

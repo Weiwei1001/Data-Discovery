@@ -72,6 +72,7 @@ class BFSTree:
         return False
 
     def bfs_traversal(self):
+        print("*"*100)
         if self.root is None:
             return
 
@@ -87,46 +88,51 @@ class BFSTree:
                 child_v = child.value
                 if(len(current_node.value) != 0):
                     CFD = (set(current_node_v),set(child_v))
-                    CFDS.append(CFD)
-                    # if CFD not in self.res:
-                    def get_OX(CFD):
-                        index1 = CFD[0]
-                        index2 = CFD[1]
-                        print("index:")
-                        print(CFD)
+                    if CFD not in CFDS:
+                        # CFDS.append(CFD)
+                        # if CFD not in self.res:
+                        def get_OX(CFD):
+                            index1 = CFD[0]
+                            index2 = CFD[1]
+                            # print("index:")
+                            # print(CFD)
 
-                        X = self.res[tuple(index1)]
-                        Y = self.res[tuple(index2.difference(index1))]
-                        #first find if the summed list is in res
-                        if tuple(index2) in self.res:
-                            return self.res[tuple(index2)]
-                        #if in , just get it
+                            X = self.res[tuple(index1)]
+                            Y = self.res[tuple(index2.difference(index1))]
+                            # first find if the summed list is in res
+                            # print(index1)
+                            # print(index2)
+                            if tuple(index2) in self.res:
+                                return self.res[tuple(index2)]
 
-                        #if not, generate one and store the into the res
+                            # if in , just get it
 
-                        return summed(X,Y)
+                            # if not, generate one and store the into the res
 
+                            return summed(X, Y)
 
-                    def isFD(X,Y):
-                        tempX = list(X.values())
-                        tempY = list(Y.values())
-                        if len(X) != len(Y):
-                            return False
-                        for i in range(len(tempX)):
-                            if tempY[i] != tempX[i]:
+                        def isFD(X, Y):
+                            tempX = list(X.values())
+                            tempY = list(Y.values())
+                            if len(X) != len(Y):
                                 return False
+                            for i in range(len(tempX)):
+                                if tempY[i] != tempX[i]:
+                                    return False
 
-                        return True
+                            return True
 
-                    candidate = get_OX(CFD)
-                    # print(self.res[tuple(current_node_v)])
-                    print(candidate)
-                    self.interest.support(self.res[tuple(current_node_v)], candidate)
+                        candidate = get_OX(CFD)
+                        # print(self.res[tuple(current_node_v)])
+                        # print(candidate)
+                        if self.interest.support(self.res[tuple(current_node_v)], candidate):
+                            CFDS.append(CFD)
 
-                    self.res[tuple(child_v)] = candidate
-                    if isFD(self.res[tuple(current_node_v)], candidate):
-                        if not self.Rule1(current_node_v,child_v.difference(current_node_v)):
-                            self.FDS[(tuple(current_node_v), tuple(child_v))] = candidate
+                        self.res[tuple(child_v)] = candidate
+                        if isFD(self.res[tuple(current_node_v)], candidate):
+                            if not self.Rule1(current_node_v, child_v.difference(current_node_v)):
+                                self.FDS[(tuple(current_node_v), tuple(child_v))] = candidate
+
 
 
         def remove_duplicates(input_list):
@@ -148,9 +154,6 @@ class BFSTree:
         for item in self.res:
             print(item, self.res[item])
 
-        #check for FDs
-        # for item in self.FDS:
-        #     print(item)
 
 
 
