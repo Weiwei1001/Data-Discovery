@@ -1,3 +1,15 @@
+key_mapping_dict = {
+    'marital-status': 0,
+    'occupation': 1,
+    'relationship': 2,
+    'race': 3,
+    'sex': 4,
+    'education': 5,
+    'native-country': 6,
+    'workclass': 7,
+    'class': 8
+}
+
 # 映射字典
 mapping_dict = {
     'age': 'continuous',
@@ -127,6 +139,8 @@ mapping_dict = {
     }
 }
 
+
+
 def mapData(File):
     with open(File, "r") as file:
         lines = file.readlines()
@@ -134,12 +148,15 @@ def mapData(File):
     size = 0
 
     mapped_data = []
+    continues_data = []
     # 获取数组的初始大小
     keys = mapping_dict.keys()
     for attribute in list(keys):
         # print(attribute)
         if isinstance(mapping_dict[attribute], dict):
             mapped_data.append([])
+        else:
+            continues_data.append([])
 
     # 默认映射规则为-1
     default_mapping = -1
@@ -147,12 +164,14 @@ def mapData(File):
     # print(len(lines))
     index = 0
     index2 = 0
+    index3 = 0
     for line in lines:
         values = line.strip().split(", ")
         mapped_values = []
 
         for i, value in enumerate(values):
             attribute = list(mapping_dict.keys())[i]
+
             if attribute in mapping_dict:
                 if isinstance(mapping_dict[attribute], dict):
                     mapped_data[index].append(mapping_dict[attribute].get(value, default_mapping))
@@ -160,13 +179,16 @@ def mapData(File):
                     # 使用默认映射规则来处理未知值
                     # print(attribute)
                     # print(mapping_dict[attribute].get(value, default_mapping))
-                    mapped_values.append(f"{attribute}: {mapping_dict[attribute].get(value, default_mapping)}")
+                    # mapped_values.append(f"{attribute}: {mapping_dict[attribute].get(value, default_mapping)}")
                 else:
-                    mapped_values.append(f"{attribute}: {mapping_dict[attribute]}")
-            if index == 8:
-                index2 = index2 + 1
+                    continues_data[index3].append(value)
+                    index3 = (index3 + 1) % len(continues_data)
 
-        if index2 == 10:
-            break
 
-    return mapped_data
+                    # mapped_values.append(f"{attribute}: {mapping_dict[attribute]}")
+        #     if index == 8:
+        #         index2 = index2 + 1
+        #
+        # if index2 == 1:
+        #     break
+    return mapped_data, continues_data

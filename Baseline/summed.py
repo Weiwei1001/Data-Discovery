@@ -12,9 +12,12 @@ def summed(value_dict1,value_dict2):
             # 找到两行中相同键的值的交集
             common_values = list(set(value1) & set(value2))
             if common_values:
+                # print("key1:")
+                # print(key1)
                 new_key = (key1, key2)
+                # print(new_key)
                 result.setdefault(new_key, []).extend(common_values)
-
+    # print("kkkk"+str(new_key))
     return result
 
 result = [

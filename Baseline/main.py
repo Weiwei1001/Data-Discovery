@@ -1,48 +1,10 @@
 from BFSTree import *
 from mapping import *
+
+from Openai.chat import OpenAIInterface
+from Openai.chat import prompt
 from summed import summed
-# def find_CFD(OX, X, Y, k):
-#     if k >= 2:
-#         itn = 2
-#     else:
-#         itn = 1
-#
-#     for i in range(1, itn + 1):
-#         # First check for CFDs with added variables
-#         for qi in Q:
-#             if all(val in OX for val in qi):
-#                 if M(xi, yi) >= tau:
-#                     phi = (X, A)  # Replace A with the actual attribute name
-#                     CL.append(phi)
-#                     OX = [val for val in OX if val != xi]
-#
-#         if CL:
-#             break
-#
-#     return OX
-#
-#
-# def generate_CFDs(Relation_R, current_level_k):
-#     CL = []
-#     G = {}
-#
-#     for X in level_k:
-#         marked_edge = find_marked_edge(X, Y)  # Implement this function
-#         if len(π_X) == len(π_Y):
-#             unmark_edge(X, Y)
-#             remove_supersets_from_G(X, Y)
-#         else:
-#             OX = subsumed_Xi
-#             VX = list(set(X) - set(OX))
-#             OX_prime = find_CFD(OX, X, Y, k)
-#             if OX_prime:
-#                 G[(X_prime, Y_prime, Q, P)] = (VX, OX_prime)
-#
-#     if k >= 2 and not G:
-#         return CL
-#
-#     return CL
-#
+
 
 def create_value_index_dict(matrix):
     result = []
@@ -56,27 +18,45 @@ def create_value_index_dict(matrix):
         result.append(value_dict)
     return result
 
-def generate_CFDs(Relation_R, current_level_k, level_n, ):
-    CL = []
-    G = {}
-    for k in level_n:
-        print(k)
 
 def main():
 
-    matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
-    # matrix = mapData('/Users/xuzhongwei/Berkeley/DataDiscovery/adult/adult.data')
-    result = create_value_index_dict(matrix)
-    print(result)
+
+    # 0 1 2
+    # 0 0 0
+    # 0 0 0
+    # 1 0 0
+    # 1 1 0
+    # 2 1 1
+    # 2 1 1
+
+    matrix, continue_data = mapData('/Users/xuzhongwei/Berkeley/DataDiscovery/adult/adult.data')
+    # matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
+    # openai_interface = OpenAIInterface(200)
+    #
+    # print(continue_data)
+    # analysis = openai_interface.analysis_data(continue_data)
+    # print("analysis:")
+    # print(analysis)
+    #
+    # completion_result = openai_interface.send_completion_job(analysis,
+    #                                                          prompt_template=prompt)
+    # print(completion_result)
+    #
+    # result = create_value_index_dict(matrix)
+    # print(result)
 
 
     Tree = BFSTree(matrix, 0.3)
-    Tree.generate_combination_tree(3)
+    Tree.generate_combination_tree(9)
+    # Tree.generate_combination_tree(3)
+    # Tree.print_res()
+    # Tree.print_tree()
+    # print(matrix)
+    # Tree.print_res()
     Tree.bfs_traversal()
-    # for row in result:
-    #     print(row)
-    # tree = Node(-1)
-
+    # print(len(matrix))
+    # print(len(matrix[0]))
 
 
 if __name__ == '__main__':
