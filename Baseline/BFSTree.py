@@ -283,7 +283,7 @@ class BFSTree:
         # 打印出来
         for pair in sorted_scores:
             print(pair)
-            print(self.score[pair])
+            # print(self.score[pair])
         # for ele in self.score:
         #     print(ele)
 
