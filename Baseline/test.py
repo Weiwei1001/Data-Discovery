@@ -1,5 +1,5 @@
 import re
-
+from mapping import *
 
 def process_text(text):
 
@@ -60,8 +60,60 @@ example_text_2 = """1. If the column "relationship" is "Husband", then the colum
 processed_text, unmatch = process_text(example_text_2)
 for centence in processed_text:
     print(centence)
-# print("*"*100)
-# # print(processed_text)
+print("*"*100)
+# print(processed_text)
 # for centence in unmatch:
 #     print(centence)
 
+
+
+
+
+
+
+def map_attributes(key_mapping_dict, mapping_dict, inputs):
+    # Function to map single attributes
+    def map_single_attribute(attribute, value):
+        if attribute in mapping_dict and isinstance(mapping_dict[attribute], dict):
+            # Map the value using the provided dictionary, defaulting to value if not found
+            return key_mapping_dict[attribute], mapping_dict[attribute].get(value, value)
+        # If the attribute is not in the dictionary or it's marked as 'continuous'
+        return key_mapping_dict[attribute], value
+
+    mapped_outputs = []
+
+    for input_line in inputs:
+        record_id = input_line[0]
+        mapped_line = [record_id]
+
+        for attr_info in input_line[1]:
+            # print(attr_info)
+        # print("\n")
+            if isinstance(attr_info, tuple):  # It's a tuple of attribute info
+                attr_key = attr_info[0]
+                if isinstance(attr_info[1], tuple):
+        #             # Process each attribute in the tuple
+                    sub_attributes = [(map_single_attribute(attr_info[0], attr_info[1]))]
+                    mapped_line.append(tuple(sub_attributes))
+                else:
+        #             # Process a single attribute
+                    mapped_line.append(map_single_attribute(attr_key, attr_info[1]))
+                    # print(map_single_attribute(attr_key, attr_info[1]))
+
+        # print("\n")
+        #         mapped_line.append(map_single_attribute(attr_info[0], attr_info[1]))
+
+        attr_info = input_line[2]
+
+        # sub_attributes = [(map_single_attribute(sub_attr[0], sub_attr[1])) for sub_attr in attr_info[1]]
+        sub_attributes = (map_single_attribute(attr_info[0], attr_info[1]))
+        # print((map_single_attribute(attr_info[0], attr_info[1])))
+        mapped_line.append(tuple(sub_attributes))
+        mapped_outputs.append(mapped_line)
+
+
+    return mapped_outputs
+
+mapped_result = map_attributes(key_mapping_dict, mapping_dict, processed_text)
+for item in mapped_result:
+    print(item)
