@@ -20,6 +20,7 @@ class BFSTree:
         self.interest = Interest(threshold)
         self.condition = {}
         self.score = {}
+        self.llm_suggestion = {}
     def generate_combination_tree(self, n):
         # 创建根节点
         self.root = TreeNode(set())
@@ -89,7 +90,7 @@ class BFSTree:
         return True
     def chi_squre(self, X, A, Y, CFD, seq):
 
-        print("*"*80)
+        # print("*"*80)
 
         # self.chi_squre_v[tuple(CFD)] = []
         CFD_0 = tuple(CFD[0])
@@ -216,6 +217,7 @@ class BFSTree:
 
                             # if not, generate one and store the into the res
                             # print("kkkkk")
+                            # print("*"*700)
                             return index2, summed(X, Y)
 
                         def isFD(X, Y):
@@ -232,15 +234,18 @@ class BFSTree:
                         if not self.Rule3(CFDS,CFD):
                             continue
                         seq, candidate = get_OX(CFD)
-
+                        # print("*"*800)
                         isinterest, score = self.interest.support(self.res[tuple(current_node_v)], candidate)
+                        print("The CFD")
+                        # print(type(CFD[0]))
+                        print(CFD[0],CFD[1])
                         if isinterest:
                             CFDS.append(CFD)
                             self.score[ (frozenset(CFD[0]), frozenset(CFD[1]))]= score
                             # print(score)
 
                         A = set(child_v).difference(set(current_node_v))
-
+                        # print("*" * 800)
                         # self.interest.chi_squre(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate,CFD,list(seq))
                         # self.interest.chi_squre(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate, CFD,list(seq))
                         # self.interest.support(self.res[tuple(current_node_v)],candidate)

@@ -139,9 +139,8 @@
 #
 #
 #
-
 import re
-from mapping import *
+from Baseline.mapping import *
 
 def process_text(text):
 
@@ -162,9 +161,6 @@ def process_text(text):
 
             # 构建结果元组
             result = [number]
-            # for col, val in conditions:
-            #     result.extend([col, val])
-            # result.extend([result_column, result_value])
 
             matches.append(result)  # 将结果添加为元组
             matches.append(tuple(conditions))
@@ -173,45 +169,31 @@ def process_text(text):
             results.append(matches)
         else:
             unmatched_lines.append(line)
-    print(len(results))
+    # print(len(results))
     return results, unmatched_lines
 
 
-example_text = '3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband" and "xzw" is "hhhh", then the column "sex" must be "Male".'
-example_text_2 = """1. If the column "relationship" is "Husband", then the column "sex" must be "Male".
-2. If the column "marital-status" is "Never-married", then the column "relationship" is likely to be "Not-in-family".
-3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband", then the column "sex" must be "Male".
-4. If the column "relationship" is "Wife", then the column "sex" must be "Female".
-5. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Wife", then the column "sex" must be "Female".
-6. If the column "occupation" is "Armed-Forces", then the column "sex" is likely to be "Male".
-7. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family".
-8. If the column "native-country" is "Iran", then the column "race" is likely to be "Asian-Pac-Islander".
-9. If the column "education" is "Preschool", then the column "education-num" is likely to be 1.
-10. If the column "native-country" is "United-States", then the column "race" is likely to be "White".
-11. If the column "marital-status" is "Widowed", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
-12. If the column "education" is "Doctorate", then the column "education-num" must be 16.
-13. If the column "occupation" is "Exec-managerial", then the column "workclass" is likely to be "Private" or "Self-emp-inc".
-14. If the column "education" is "HS-grad", then the column "education-num" is likely to be 9.
-15. If the column "workclass" is "Without-pay", then the column "class" is likely to be "<=50K".
-16. If the column "occupation" is "Other-service", then the column "workclass" is likely to be "Private".
-17. If the column "relationship" is "Own-child", then the column "marital-status" is likely to be "Never-married".
-18. If the column "native-country" is "Cuba", then the column "race" is likely to be "White" or "Other".
-19. If the column "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
-20. If the column "education" is "Masters", then the column "education-num" must be 14."""
-
-processed_text, unmatch = process_text(example_text_2)
-for centence in processed_text:
-    print(centence)
-print("*"*100)
-# print(processed_text)
-# for centence in unmatch:
-#     print(centence)
-
-
-
-
-
-
+# example_text = '3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband" and "xzw" is "hhhh", then the column "sex" must be "Male".'
+# example_text_2 = """1. If the column "relationship" is "Husband", then the column "sex" must be "Male".
+# 2. If the column "marital-status" is "Never-married", then the column "relationship" is likely to be "Not-in-family".
+# 3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband", then the column "sex" must be "Male".
+# 4. If the column "relationship" is "Wife", then the column "sex" must be "Female".
+# 5. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Wife", then the column "sex" must be "Female".
+# 6. If the column "occupation" is "Armed-Forces", then the column "sex" is likely to be "Male".
+# 7. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family".
+# 8. If the column "native-country" is "Iran", then the column "race" is likely to be "Asian-Pac-Islander".
+# 9. If the column "education" is "Preschool", then the column "education-num" is likely to be 1.
+# 10. If the column "native-country" is "United-States", then the column "race" is likely to be "White".
+# 11. If the column "marital-status" is "Widowed", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
+# 12. If the column "education" is "Doctorate", then the column "education-num" must be 16.
+# 13. If the column "occupation" is "Exec-managerial", then the column "workclass" is likely to be "Private" or "Self-emp-inc".
+# 14. If the column "education" is "HS-grad", then the column "education-num" is likely to be 9.
+# 15. If the column "workclass" is "Without-pay", then the column "class" is likely to be "<=50K".
+# 16. If the column "occupation" is "Other-service", then the column "workclass" is likely to be "Private".
+# 17. If the column "relationship" is "Own-child", then the column "marital-status" is likely to be "Never-married".
+# 18. If the column "native-country" is "Cuba", then the column "race" is likely to be "White" or "Other".
+# 19. If the column "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
+# 20. If the column "education" is "Masters", then the column "education-num" must be 14."""
 
 def map_attributes(key_mapping_dict, mapping_dict, inputs):
     # Function to map single attributes
@@ -256,6 +238,46 @@ def map_attributes(key_mapping_dict, mapping_dict, inputs):
 
     return mapped_outputs
 
-mapped_result = map_attributes(key_mapping_dict, mapping_dict, processed_text)
-for item in mapped_result:
-    print(item)
+def map2CFDs(map_outputs):
+    CFD = []
+    # print(map_outputs)
+
+    for item in map_outputs:
+        # print(item)
+        set_Y = set()
+        for i in item[1:]:
+            # print(i)
+            set_Y.add(i[0])
+
+        def modify_set(input_set):
+            # Convert the set to a list for easy manipulation
+            temp_list = list(input_set)
+
+            # Remove the last element from the list
+            if temp_list:  # Ensure the list is not empty
+                temp_list.pop()
+
+            # Convert the modified list back to a set
+            modified_set = set(temp_list)
+
+            # Return the tuple of the modified set and the original set
+            return (modified_set, input_set)
+
+        # Test the function with the set {1, 2, 3}
+        # print(modify_set({1, 2, 3}))
+        # print(set_Y)
+        # print("llll")
+        # print(modify_set(set_Y))
+        CFD.append(modify_set(set_Y))
+
+    return CFD
+
+def get_llm_suggest(suggestion):
+    processed_text, unmatch = process_text(suggestion)
+    CFD = map2CFDs(map_attributes(key_mapping_dict,mapping_dict,processed_text))
+    print(CFD)
+    unique_tuples = set(tuple((tuple(pair[0]), tuple(pair[1]))) for pair in CFD)
+
+    # Convert tuples back to sets if needed
+    unique_list = [({*pair[0]}, {*pair[1]}) for pair in unique_tuples]
+    return unique_list

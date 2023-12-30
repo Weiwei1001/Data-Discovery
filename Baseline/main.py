@@ -1,7 +1,7 @@
 from BFSTree import *
 from mapping import *
-
-from Openai.chat import OpenAIInterface
+from processing import *
+from Openai.chat import OpenAIInterface, prompt_chat_complete
 from Openai.chat import prompt
 from summed import summed
 
@@ -20,8 +20,6 @@ def create_value_index_dict(matrix):
 
 
 def main():
-
-
     # 0 1 2
     # 0 0 0
     # 0 0 0
@@ -29,30 +27,49 @@ def main():
     # 1 1 0
     # 2 1 1
     # 2 1 1
-
+#######################################################Processing data part######################################################
     matrix, continue_data = mapData('/Users/xuzhongwei/Berkeley/DataDiscovery/adult/adult.data')
-    # matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
-    # openai_interface = OpenAIInterface(200)
+    matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
+
+    continue_data = [['39', '50', '38', '53', '28', '37', '49', '52', '31', '42'],
+                     ['77516', '83311', '215646', '234721', '338409', '284582', '160187', '209642', '45781', '159449'],
+                     ['13', '13', '9', '7', '13', '14', '5', '9', '14', '13'],
+                     ['2174', '0', '0', '0', '0', '0', '0', '0', '14084', '5178'],
+                     ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
+                     ['40', '13', '40', '40', '40', '40', '16', '45', '50', '40']]
+
+#####################################################ChatGPT part#################################################################
+    message = []
+    openai_interface = OpenAIInterface(200)
     #
-    # print(continue_data)
-    # analysis = openai_interface.analysis_data(continue_data)
-    # print("analysis:")
+    print(continue_data)
+    analysis = openai_interface.analysis_data(continue_data)
     # print(analysis)
     #
-    # completion_result = openai_interface.send_completion_job(analysis,
-    #                                                          prompt_template=prompt)
+    suggestion = ""
+    completion_result, message = openai_interface.send_chat_completion_job_gpt4(analysis,
+                                                                                prompt_template=prompt_chat_complete)
     # print(completion_result)
-    #
-    # result = create_value_index_dict(matrix)
-    # print(result)
+    suggestion = suggestion + completion_result
+
+    for i in range(1):
+        completion_result, message = openai_interface.send_chat_completion_job_gpt4_continue(message)
+        suggestion = suggestion + completion_result
+
+    llm_suggest = get_llm_suggest(suggestion)
+
+
+
+
+###########################################################Build Tree part###############################################################
 
 
     Tree = BFSTree(matrix, 0.3)
-    Tree.generate_combination_tree(9)
-    # Tree.generate_combination_tree(3)
+    # Tree.generate_combination_tree(9)
+    Tree.generate_combination_tree(3)
     # Tree.print_res()
     # Tree.print_tree()
-    print(matrix)
+    # print(matrix)
     # Tree.print_res()
     Tree.bfs_traversal()
     # print(len(matrix))

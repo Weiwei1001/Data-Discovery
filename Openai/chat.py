@@ -1,6 +1,7 @@
 import os
 import json
 import openai
+from Baseline.processing import *
 prompt = '''
 "In a database's relational model, there are some columns with continuous values along with their meanings and possible values. There is format 'column name:(maximum value, minimum value, average value, median)':
 age:{}
@@ -205,15 +206,23 @@ if __name__ == "__main__":
     #
     print(continue_data)
     analysis = openai_interface.analysis_data(continue_data)
-    print("analysis:")
     # print(analysis)
     #
+    suggestion = ""
     completion_result, message = openai_interface.send_chat_completion_job_gpt4(analysis,prompt_template=prompt_chat_complete)
-    print(completion_result)
+    # print(completion_result)
+    suggestion = suggestion+completion_result
 
     for i in range(1):
         completion_result, message = openai_interface.send_chat_completion_job_gpt4_continue(message)
-        print(completion_result)
+        # print(completion_result)
+        suggestion = suggestion+completion_result
+    CFDs = get_llm_suggest(suggestion)
+    for CFD in CFDs:
+        print(CFD)
+
     # You can call the 'translate_and_identify_dependencies' method with the 'prompt' as needed.
     # result = openai_interface.translate_and_identify_dependencies(prompt)
+    # print(suggestion)
+
 
