@@ -52,7 +52,7 @@ def main():
     # Tree.generate_combination_tree(3)
     # Tree.print_res()
     # Tree.print_tree()
-    # print(matrix)
+    print(matrix)
     # Tree.print_res()
     Tree.bfs_traversal()
     # print(len(matrix))

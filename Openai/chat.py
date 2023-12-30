@@ -48,8 +48,14 @@ workclass: Private, Self-emp-not-inc, Self-emp-inc, Federal-gov, Local-gov, Stat
 class: >50K, <=50K
 
 There are some possible condition function dependencies  behind these columns with enumerable value.For example, when the column “relationship" is husband, then the sex must be “Male”. I want you to give me some condition function dependencies like that and orgnize them with form like this:
-"1. If the column "relationship" is "Husband", then the column "sex" must be "Male"."
-"
+'1. If the column "XXX" is "XXX", then the column "XXX" must be "XXX".'
+'2. If the column "XXX" is "XXX" and "XXX" is "XXX", then the column "XXX" must be "XXX".'
+
+For every line you reply to me, it should consist of two sentences.
+The first sentence's format is "If the column 'XXX' is 'XXX'", and if there are multiple columns, you should connect them with "and", for example, if there are three columns, you should express it as "If the column 'XXX' is 'XXX' and 'XXX' is 'XXX' and 'XXX' is 'XXX'".
+The second sentence's format is "then the column 'XXX' must be 'XXX'".
+If you are not certain, you can write it as "then the column 'XXX' is likely to be 'XXX'".
+Do not use other expressions!
 '''
 
 prompt_chat_complete_FD = '''
