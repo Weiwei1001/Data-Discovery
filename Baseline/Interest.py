@@ -23,6 +23,7 @@ class Interest:
                 numerator = numerator + len(Y[key])
 
         # print(numerator)
+        # print(denominator)
         score = float(numerator / denominator)
         # print("Interest:")
         # print(score)

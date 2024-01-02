@@ -174,26 +174,53 @@ def process_text(text):
 
 
 # example_text = '3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband" and "xzw" is "hhhh", then the column "sex" must be "Male".'
-# example_text_2 = """1. If the column "relationship" is "Husband", then the column "sex" must be "Male".
-# 2. If the column "marital-status" is "Never-married", then the column "relationship" is likely to be "Not-in-family".
-# 3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband", then the column "sex" must be "Male".
-# 4. If the column "relationship" is "Wife", then the column "sex" must be "Female".
-# 5. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Wife", then the column "sex" must be "Female".
-# 6. If the column "occupation" is "Armed-Forces", then the column "sex" is likely to be "Male".
-# 7. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family".
-# 8. If the column "native-country" is "Iran", then the column "race" is likely to be "Asian-Pac-Islander".
-# 9. If the column "education" is "Preschool", then the column "education-num" is likely to be 1.
-# 10. If the column "native-country" is "United-States", then the column "race" is likely to be "White".
-# 11. If the column "marital-status" is "Widowed", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
-# 12. If the column "education" is "Doctorate", then the column "education-num" must be 16.
-# 13. If the column "occupation" is "Exec-managerial", then the column "workclass" is likely to be "Private" or "Self-emp-inc".
-# 14. If the column "education" is "HS-grad", then the column "education-num" is likely to be 9.
-# 15. If the column "workclass" is "Without-pay", then the column "class" is likely to be "<=50K".
-# 16. If the column "occupation" is "Other-service", then the column "workclass" is likely to be "Private".
-# 17. If the column "relationship" is "Own-child", then the column "marital-status" is likely to be "Never-married".
-# 18. If the column "native-country" is "Cuba", then the column "race" is likely to be "White" or "Other".
-# 19. If the column "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
-# 20. If the column "education" is "Masters", then the column "education-num" must be 14."""
+example_text_2 = """1. If the column "relationship" is "Husband", then the column "sex" must be "Male".
+2. If the column "marital-status" is "Never-married", then the column "relationship" is likely to be "Not-in-family".
+3. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Husband", then the column "sex" must be "Male".
+4. If the column "relationship" is "Wife", then the column "sex" must be "Female".
+5. If the column "marital-status" is "Married-civ-spouse" and "relationship" is "Wife", then the column "sex" must be "Female".
+6. If the column "occupation" is "Armed-Forces", then the column "sex" is likely to be "Male".
+7. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family".
+8. If the column "native-country" is "Iran", then the column "race" is likely to be "Asian-Pac-Islander".
+9. If the column "education" is "Preschool", then the column "education-num" is likely to be 1.
+10. If the column "native-country" is "United-States", then the column "race" is likely to be "White".
+11. If the column "marital-status" is "Widowed", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
+12. If the column "education" is "Doctorate", then the column "education-num" must be 16.
+13. If the column "occupation" is "Exec-managerial", then the column "workclass" is likely to be "Private" or "Self-emp-inc".
+14. If the column "education" is "HS-grad", then the column "education-num" is likely to be 9.
+15. If the column "workclass" is "Without-pay", then the column "class" is likely to be "<=50K".
+16. If the column "occupation" is "Other-service", then the column "workclass" is likely to be "Private".
+17. If the column "relationship" is "Own-child", then the column "marital-status" is likely to be "Never-married".
+18. If the column "native-country" is "Cuba", then the column "race" is likely to be "White" or "Other".
+19. If the column "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
+20. If the column "education" is "Masters", then the column "education-num" must be 14.
+4. If the column "workclass" is "Without-pay" or "Never-worked", then the column "class" is likely to be "<=50K".
+5. If the column "education" is "Doctorate" or "Masters", then the column "class" is likely to be ">50K".
+6. If the column "native-country" is "United-States" and "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
+7. If the column "marital-status" is "Married-civ-spouse" and "education" is "HS-grad", then the column "class" is likely to be ">50K".
+8. If the column "relationship" is "Own-child" or "Unmarried", then the column "class" is likely to be "<=50K".
+9. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
+10. If the column "race" is "Other", then the column "class" is likely to be "<=50K".
+11. If the column "education" is "Preschool", then the column "class" is likely to be "<=50K"."""
+example = """1. If the column "relationship" is "Husband", then the column "sex" must be "Male".
+2. If the column "relationship" is "Wife", then the column "sex" must be "Female".
+3. If the column "marital-status" is "Never-married", then the column "relationship" is likely to be "Not-in-family".
+4. If the column "workclass" is "Without-pay" or "Never-worked", then the column "class" is likely to be "<=50K".
+5. If the column "education" is "Doctorate" or "Masters", then the column "class" is likely to be ">50K".
+6. If the column "native-country" is "United-States" and "workclass" is "Federal-gov", then the column "class" is likely to be ">50K".
+7. If the column "marital-status" is "Married-civ-spouse" and "education" is "HS-grad", then the column "class" is likely to be ">50K".
+8. If the column "relationship" is "Own-child" or "Unmarried", then the column "class" is likely to be "<=50K".
+9. If the column "marital-status" is "Divorced" or "Separated", then the column "relationship" is likely to be "Not-in-family" or "Unmarried".
+10. If the column "race" is "Other", then the column "class" is likely to be "<=50K".11. If the column "education" is "Preschool", then the column "class" is likely to be "<=50K".
+12. If the column "workclass" is "Self-emp-inc", then the column "class" is likely to be ">50K".
+13. If the column "occupation" is "Exec-managerial" or "Prof-specialty", then the column "class" is likely to be ">50K".
+14. If the column "relationship" is "Husband" and "workclass" is "Private", then the column "class" is likely to be ">50K".
+15. If the column "marital-status" is "Married-spouse-absent" or "Widowed", then the column "class" is likely to be "<=50K".
+16. If the column "native-country" is not "United-States", then the column "class" is likely to be "<=50K".
+17. If the column "occupation" is "Handlers-cleaners" or "Farming-fishing", then the column "class" is likely to be "<=50K".
+18. If the column "sex" is "Female" and "relationship" is "Not-in-family", then the column "class" is likely to be "<=50K".
+19. If the column "education" is "Bachelors" and "occupation" is "Prof-specialty", then the column "class" is likely to be ">50K".
+20. If the column "marital-status" is "Married-civ-spouse" and "occupation" is "Exec-managerial", then the column "class" is likely to be ">50K"."""
 
 def map_attributes(key_mapping_dict, mapping_dict, inputs):
     # Function to map single attributes
@@ -273,11 +300,19 @@ def map2CFDs(map_outputs):
     return CFD
 
 def get_llm_suggest(suggestion):
+    # print(suggestion)
     processed_text, unmatch = process_text(suggestion)
+    # for text in processed_text:
+    #     print(text)
+    # print("*"*80)
+    # print(unmatch)
+
+# get_llm_suggest()
     CFD = map2CFDs(map_attributes(key_mapping_dict,mapping_dict,processed_text))
     print(CFD)
+# get_llm_suggest(example_text_2)
     unique_tuples = set(tuple((tuple(pair[0]), tuple(pair[1]))) for pair in CFD)
-
+    #
     # Convert tuples back to sets if needed
     unique_list = [({*pair[0]}, {*pair[1]}) for pair in unique_tuples]
     return unique_list

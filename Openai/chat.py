@@ -90,13 +90,14 @@ prompt_continue = "Can you give some more examples?"
 class OpenAIInterface:
     def __init__(self,max_token):
         openai.api_key = os.getenv("AZURE_OPENAI_KEY")
-        print("Azure key")
+        # print("Azure key")
         # print(openai.api_key)
         openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")  # your endpoint should look like the following https://YOUR_RESOURCE_NAME.openai.azure.com/
         openai.api_type = 'azure'
         openai.api_version = '2023-07-01-preview'  # this may change in the future
         self.deployment_name = 'gpt-35-turbo'  # This will correspond to the custom name you chose for your deployment when you deployed a model
         self.max_token = max_token
+
     def send_completion_job(self, args, prompt_template):
         start_phrase = prompt_template.format(*args)
         # print(start_phrase)
@@ -145,8 +146,9 @@ class OpenAIInterface:
         return text, message_text
 
     def send_chat_completion_job_gpt4_continue(self, message_text):
-        message_text.append({"role": "user", "content": prompt_continue})
 
+        message_text.append({"role": "user", "content": prompt_continue})
+        # print(message_text)
         openai.api_base = "https://promptdeltass.openai.azure.com/"
         openai.api_key = "67be85e5dd964d8ab121571a39ed168a"
         completion = openai.ChatCompletion.create(
@@ -161,9 +163,9 @@ class OpenAIInterface:
         )
 
         text = completion['choices'][0]['message']['content']
-        print(message)
-        message.append({"role": "assistant", "content": text})
-        return text, message
+        # print(message)
+        message_text.append({"role": "assistant", "content": text})
+        return text, message_text
 
 
 
@@ -201,10 +203,9 @@ if __name__ == "__main__":
      ['13', '13', '9', '7', '13', '14', '5', '9', '14', '13'],
      ['2174', '0', '0', '0', '0', '0', '0', '0', '14084', '5178'], ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0'],
      ['40', '13', '40', '40', '40', '40', '16', '45', '50', '40']]
-    message = []
     openai_interface = OpenAIInterface(200)
     #
-    print(continue_data)
+    # print(continue_data)
     analysis = openai_interface.analysis_data(continue_data)
     # print(analysis)
     #
@@ -216,13 +217,6 @@ if __name__ == "__main__":
     for i in range(1):
         completion_result, message = openai_interface.send_chat_completion_job_gpt4_continue(message)
         # print(completion_result)
-        suggestion = suggestion+completion_result
-    CFDs = get_llm_suggest(suggestion)
-    for CFD in CFDs:
-        print(CFD)
-
-    # You can call the 'translate_and_identify_dependencies' method with the 'prompt' as needed.
-    # result = openai_interface.translate_and_identify_dependencies(prompt)
-    # print(suggestion)
-
+        suggestion = suggestion+"\n"+completion_result
+    get_llm_suggest(suggestion)
 

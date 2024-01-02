@@ -29,7 +29,7 @@ def main():
     # 2 1 1
 #######################################################Processing data part######################################################
     matrix, continue_data = mapData('/Users/xuzhongwei/Berkeley/DataDiscovery/adult/adult.data')
-    matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
+    # matrix = [[0, 0, 1, 1, 2, 2], [0, 0, 0, 1, 1, 1], [0, 0, 0, 0, 1, 1]]
 
     continue_data = [['39', '50', '38', '53', '28', '37', '49', '52', '31', '42'],
                      ['77516', '83311', '215646', '234721', '338409', '284582', '160187', '209642', '45781', '159449'],
@@ -39,24 +39,28 @@ def main():
                      ['40', '13', '40', '40', '40', '40', '16', '45', '50', '40']]
 
 #####################################################ChatGPT part#################################################################
-    message = []
-    openai_interface = OpenAIInterface(200)
+    # # messages = []
+    # message = []
+    # openai_interface = OpenAIInterface(200)
+    # #
+    # # print(continue_data)
+    # analysis = openai_interface.analysis_data(continue_data)
+    # # print(analysis)
+    # #
+    # suggestion = ""
+    # completion_result, messages = openai_interface.send_chat_completion_job_gpt4(analysis,
+    #                                                                             prompt_template=prompt_chat_complete)
+    # print(messages)
+    # # print(completion_result)
+    # suggestion = suggestion + completion_result
     #
-    print(continue_data)
-    analysis = openai_interface.analysis_data(continue_data)
-    # print(analysis)
+    # for i in range(1):
+    #     completion_result, messages = openai_interface.send_chat_completion_job_gpt4_continue(messages)
+    #     suggestion = suggestion +"\n" +completion_result
     #
-    suggestion = ""
-    completion_result, message = openai_interface.send_chat_completion_job_gpt4(analysis,
-                                                                                prompt_template=prompt_chat_complete)
-    # print(completion_result)
-    suggestion = suggestion + completion_result
-
-    for i in range(1):
-        completion_result, message = openai_interface.send_chat_completion_job_gpt4_continue(message)
-        suggestion = suggestion + completion_result
-
-    llm_suggest = get_llm_suggest(suggestion)
+    # # print(suggestion)
+    # llm_suggest = get_llm_suggest(suggestion)
+    # print(llm_suggest)
 
 
 
@@ -64,14 +68,20 @@ def main():
 ###########################################################Build Tree part###############################################################
 
 
-    Tree = BFSTree(matrix, 0.3)
-    # Tree.generate_combination_tree(9)
-    Tree.generate_combination_tree(3)
-    # Tree.print_res()
-    # Tree.print_tree()
-    # print(matrix)
-    # Tree.print_res()
+    Tree = BFSTree(matrix, 0)
+    Tree.generate_combination_tree(9)
+    Tree.llm_suggestion = [({8, 3}, {8, 3, 6}), ({2}, {2, 4}), ({9}, {9, 5}), ({8}, {8, 1}), ({8}, {8, 7}), ({3}, {3, 6}), ({8}, {8, 5}), ({8, 2}, {8, 2, 4}), ({0}, {0, 2})]
+
+    # print(llm_suggest)
+
+    # # Tree.generate_combination_tree(3)
+    # # Tree.print_res()
+    # # Tree.print_tree()
+    # # print(matrix)
+    # # Tree.print_res()
     Tree.bfs_traversal()
+
+
     # print(len(matrix))
     # print(len(matrix[0]))
 

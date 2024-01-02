@@ -20,7 +20,7 @@ class BFSTree:
         self.interest = Interest(threshold)
         self.condition = {}
         self.score = {}
-        self.llm_suggestion = {}
+        self.llm_suggestion = []
     def generate_combination_tree(self, n):
         # 创建根节点
         self.root = TreeNode(set())
@@ -181,8 +181,24 @@ class BFSTree:
             return
 
         queue = [self.root]  # 使用队列来进行BFS
+        # queue = None
         CFDS = []
         CFDS_res = []
+
+        def get_OX(CFD):
+            index1 = CFD[0]
+            index2 = CFD[1]
+
+            X = self.res[tuple(index1)]
+            Y = self.res[tuple(index2.difference(index1))]
+
+            if tuple(index2) in self.res:
+                seq = list(index1)
+                seq.append(list(index2.difference(index1))[0])
+                return seq, self.res[tuple(index2)]
+
+            return index2, summed(X, Y)
+
 
         while queue:
             current_node = queue.pop(0)
@@ -199,26 +215,6 @@ class BFSTree:
 
                         CFDS_res.append(CFD)
                         # if CFD not in self.res:
-                        def get_OX(CFD):
-                            index1 = CFD[0]
-                            index2 = CFD[1]
-
-
-                            X = self.res[tuple(index1)]
-                            Y = self.res[tuple(index2.difference(index1))]
-
-                            if tuple(index2) in self.res:
-
-                                seq = list(index1)
-                                seq.append(list(index2.difference(index1))[0])
-                                return seq, self.res[tuple(index2)]
-
-                            # if in , just get it
-
-                            # if not, generate one and store the into the res
-                            # print("kkkkk")
-                            # print("*"*700)
-                            return index2, summed(X, Y)
 
                         def isFD(X, Y):
                             tempX = list(X.values())
@@ -233,12 +229,14 @@ class BFSTree:
 
                         if not self.Rule3(CFDS,CFD):
                             continue
+                        # print(CFD)
+                        # print(type(CFD))
                         seq, candidate = get_OX(CFD)
                         # print("*"*800)
                         isinterest, score = self.interest.support(self.res[tuple(current_node_v)], candidate)
-                        print("The CFD")
+                        # print("The CFD")
                         # print(type(CFD[0]))
-                        print(CFD[0],CFD[1])
+                        # print(CFD[0],CFD[1])
                         if isinterest:
                             CFDS.append(CFD)
                             self.score[ (frozenset(CFD[0]), frozenset(CFD[1]))]= score
@@ -283,17 +281,11 @@ class BFSTree:
         print(len(self.score))
         # 假设 self.score 已经定义并包含数据
         # 对字典项按照score值排序，并取前20个
-        sorted_scores = sorted(self.score.items(), key=lambda item: item[1], reverse=True)[:20]
+        sorted_scores = sorted(self.score.items(), key=lambda item: item[1], reverse=True)
 
         # 打印出来
         for pair in sorted_scores:
             print(pair)
-            # print(self.score[pair])
-        # for ele in self.score:
-        #     print(ele)
-
-
-
 
 
 

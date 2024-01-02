@@ -7,7 +7,11 @@ key_mapping_dict = {
     'education': 5,
     'native-country': 6,
     'workclass': 7,
-    'class': 8
+    'class': 8,
+    'education-num': 9,
+    'capital-gain' : 10,
+    'capital-loss' : 11,
+    'hours-per-week' : 12
 }
 
 # 映射字典
@@ -186,9 +190,9 @@ def mapData(File):
 
 
                     # mapped_values.append(f"{attribute}: {mapping_dict[attribute]}")
-            if index == 8:
-                index2 = index2 + 1
-
-        if index2 == 1:
-            break
+        #     if index == 8:
+        #         index2 = index2 + 1
+        #
+        # if index2 == 1:
+        #     break
     return mapped_data, continues_data
