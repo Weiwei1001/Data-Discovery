@@ -181,25 +181,8 @@ class BFSTree:
             return
 
         queue = [self.root]  # 使用队列来进行BFS
-        # queue = None
         CFDS = []
         CFDS_res = []
-
-        def get_OX(CFD):
-            index1 = CFD[0]
-            index2 = CFD[1]
-
-            X = self.res[tuple(index1)]
-            Y = self.res[tuple(index2.difference(index1))]
-
-            if tuple(index2) in self.res:
-                seq = list(index1)
-                seq.append(list(index2.difference(index1))[0])
-                return seq, self.res[tuple(index2)]
-
-            return index2, summed(X, Y)
-
-
         while queue:
             current_node = queue.pop(0)
           # 处理当前节点的值
@@ -215,6 +198,26 @@ class BFSTree:
 
                         CFDS_res.append(CFD)
                         # if CFD not in self.res:
+                        def get_OX(CFD):
+                            index1 = CFD[0]
+                            index2 = CFD[1]
+
+
+                            X = self.res[tuple(index1)]
+                            Y = self.res[tuple(index2.difference(index1))]
+
+                            if tuple(index2) in self.res:
+
+                                seq = list(index1)
+                                seq.append(list(index2.difference(index1))[0])
+                                return seq, self.res[tuple(index2)]
+
+                            # if in , just get it
+
+                            # if not, generate one and store the into the res
+                            # print("kkkkk")
+                            # print("*"*700)
+                            return index2, summed(X, Y)
 
                         def isFD(X, Y):
                             tempX = list(X.values())
@@ -229,8 +232,6 @@ class BFSTree:
 
                         if not self.Rule3(CFDS,CFD):
                             continue
-                        # print(CFD)
-                        # print(type(CFD))
                         seq, candidate = get_OX(CFD)
                         # print("*"*800)
                         isinterest, score = self.interest.support(self.res[tuple(current_node_v)], candidate)
@@ -286,6 +287,12 @@ class BFSTree:
         # 打印出来
         for pair in sorted_scores:
             print(pair)
+
+
+
+
+
+
 
 
 

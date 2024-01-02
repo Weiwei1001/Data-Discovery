@@ -187,8 +187,6 @@ def mapData(File):
                 else:
                     continues_data[index3].append(value)
                     index3 = (index3 + 1) % len(continues_data)
-
-
                     # mapped_values.append(f"{attribute}: {mapping_dict[attribute]}")
         #     if index == 8:
         #         index2 = index2 + 1
