@@ -211,24 +211,14 @@ class BFSTree:
                 if set(X[Key_X]).issubset(set(A[Key_A])):
                     self.chi_squre_v[(CFD_0,CFD_1)].append(X[Key_X])
                 def find_subset_key(dictionary, list_to_check, tuple_to_use):
-                    # Iterate over the length of the tuple
-                    # print("QQQQQ:")
-                    #
-                    # print(dictionary)
-                    # print(list_to_check)
-                    # print(tuple_to_use)
                     for r in range(1, len(tuple_to_use) + 1):
                         # Generate all combinations of the given length
                         for combo in combinations(tuple_to_use, r):
-                            # print(combo)
                             # Check if the combination is in the dictionary
                             if combo in dictionary:
-                                # print(dictionary[combo])
                                 #     # Get the values from the dictionary
 
                                 values = list(dictionary[combo].values())
-                                # print(combo)
-                                # print(values)
                                 #     # Check if each list in list_to_check is a subset of any value in values
                                 if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
                                        list_to_check):
@@ -238,15 +228,10 @@ class BFSTree:
                     return None
 
                 comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
-                # print("The Q is")
-                # print(comb)
-                self.condition[(CFD_0,CFD_1)] = [comb]
-                # print("sublist:")
-                # print(self.res[comb])
-                for sublist in self.chi_squre_v[(CFD_0, CFD_1)]:
 
-                    # print(sublist)
-                    # if set(sublist).issubset(self.res[comb]):
+                self.condition[(CFD_0,CFD_1)] = [comb]
+
+                for sublist in self.chi_squre_v[(CFD_0, CFD_1)]:
                     for ele in self.res[comb]:
                         if set(sublist).issubset(self.res[comb][ele]):
                             # print(ele)
@@ -317,11 +302,7 @@ class BFSTree:
                         if not self.Rule3(CFDS,CFD):
                             continue
                         seq, candidate = get_OX(CFD)
-                        # print("*"*800)
                         isinterest, score = self.interest.support(self.res[tuple(current_node_v)], candidate)
-                        # print("The CFD")
-                        # print(type(CFD[0]))
-                        # print(CFD[0],CFD[1])
                         if isinterest:
                             CFDS.append(CFD)
                             self.score[ (frozenset(CFD[0]), frozenset(CFD[1]))]= score
