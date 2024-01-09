@@ -97,6 +97,7 @@ class BFSTree:
         CFD_1 = tuple(CFD[1])
         self.chi_squre_v[(CFD_0,CFD_1)] = []
         print(CFD)
+        print(seq)
         # print(type(CFD))
         # # print(set(CFD[1]).difference(set(CFD[0])))
         print(X)
@@ -148,12 +149,15 @@ class BFSTree:
 
             if set(X[Key_X]).issubset(set(A[Key_A])):
                 self.chi_squre_v[(CFD_0,CFD_1)].append(X[Key_X])
-                    # for item in self.chi_squre_v[(CFD_0, CFD_1)]:
-                        # if set(item) in
-                # print(self.chi_squre_v[(CFD_0, CFD_1)])
+
 
         def find_subset_key(dictionary, list_to_check, tuple_to_use):
             # Iterate over the length of the tuple
+            print("QQQQQ:")
+
+            print(dictionary)
+            print(list_to_check)
+            print(tuple_to_use)
             for r in range(1, len(tuple_to_use) + 1):
                 # Generate all combinations of the given length
                 for combo in combinations(tuple_to_use, r):
@@ -162,7 +166,10 @@ class BFSTree:
                     if combo in dictionary:
                         # print(dictionary[combo])
                         #     # Get the values from the dictionary
+
                         values = list(dictionary[combo].values())
+                        print(combo)
+                        print(values)
                         #     # Check if each list in list_to_check is a subset of any value in values
                         if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
                                list_to_check):
@@ -173,7 +180,84 @@ class BFSTree:
 
         comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
         # print(CFD_0,CFD_1)
-        self.condition[(CFD_0,CFD_1)] = comb
+        self.condition[(CFD_0,CFD_1)] = [comb]
+
+    def find_condition2(self, X, A, Y, CFD, seq):
+        print(Y)
+        print(CFD)
+        print(X)
+        print(A)
+        for ele in X:
+            for ele2 in A:
+                if set(X[ele]).issubset(set(A[ele2])):
+                    key_Y = (ele,)+(ele2,)
+                    Key_X = ele
+                    Key_A = ele2
+
+
+
+
+
+    def find_condition(self, X, A, Y, CFD, seq):
+
+        # print("*"*80)
+
+        # self.chi_squre_v[tuple(CFD)] = []
+        CFD_0 = tuple(CFD[0])
+        CFD_1 = tuple(CFD[1])
+        self.chi_squre_v[(CFD_0,CFD_1)] = []
+        for Key_X in X:
+            for Key_A in A:
+                if set(X[Key_X]).issubset(set(A[Key_A])):
+                    self.chi_squre_v[(CFD_0,CFD_1)].append(X[Key_X])
+                def find_subset_key(dictionary, list_to_check, tuple_to_use):
+                    # Iterate over the length of the tuple
+                    # print("QQQQQ:")
+                    #
+                    # print(dictionary)
+                    # print(list_to_check)
+                    # print(tuple_to_use)
+                    for r in range(1, len(tuple_to_use) + 1):
+                        # Generate all combinations of the given length
+                        for combo in combinations(tuple_to_use, r):
+                            # print(combo)
+                            # Check if the combination is in the dictionary
+                            if combo in dictionary:
+                                # print(dictionary[combo])
+                                #     # Get the values from the dictionary
+
+                                values = list(dictionary[combo].values())
+                                # print(combo)
+                                # print(values)
+                                #     # Check if each list in list_to_check is a subset of any value in values
+                                if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
+                                       list_to_check):
+                                    #         # If all lists are subsets, return the key (combination)
+                                    return combo
+                    # If no matching combination is found, return None
+                    return None
+
+                comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
+                # print("The Q is")
+                # print(comb)
+                self.condition[(CFD_0,CFD_1)] = [comb]
+                # print("sublist:")
+                # print(self.res[comb])
+                for sublist in self.chi_squre_v[(CFD_0, CFD_1)]:
+
+                    # print(sublist)
+                    # if set(sublist).issubset(self.res[comb]):
+                    for ele in self.res[comb]:
+                        if set(sublist).issubset(self.res[comb][ele]):
+                            # print(ele)
+                            self.condition[(CFD_0, CFD_1)].append(ele)
+                            break
+
+
+
+
+
+
 
     def bfs_traversal(self):
         # print("*"*100)
@@ -245,7 +329,7 @@ class BFSTree:
 
                         A = set(child_v).difference(set(current_node_v))
                         # print("*" * 800)
-                        # self.interest.chi_squre(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate,CFD,list(seq))
+                        self.find_condition(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate,CFD,list(seq))
                         # self.interest.chi_squre(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate, CFD,list(seq))
                         # self.interest.support(self.res[tuple(current_node_v)],candidate)
                         self.res[tuple(child_v)] = candidate
@@ -287,6 +371,14 @@ class BFSTree:
         # 打印出来
         for pair in sorted_scores:
             print(pair)
+
+        print("Condition:")
+        # print(self.condition)
+        for ele in self.condition:
+            print(ele)
+            print(self.condition[ele])
+
+
 
 
 
