@@ -1,6 +1,7 @@
 from summed import *
 from Interest import *
 from itertools import combinations
+from mapping import *
 
 class TreeNode:
     def __init__(self, value, parent=None):
@@ -205,38 +206,58 @@ class BFSTree:
         # self.chi_squre_v[tuple(CFD)] = []
         CFD_0 = tuple(CFD[0])
         CFD_1 = tuple(CFD[1])
+        # print(CFD)
         self.chi_squre_v[(CFD_0,CFD_1)] = []
         for Key_X in X:
             for Key_A in A:
                 if set(X[Key_X]).issubset(set(A[Key_A])):
                     self.chi_squre_v[(CFD_0,CFD_1)].append(X[Key_X])
-                def find_subset_key(dictionary, list_to_check, tuple_to_use):
-                    for r in range(1, len(tuple_to_use) + 1):
-                        # Generate all combinations of the given length
-                        for combo in combinations(tuple_to_use, r):
-                            # Check if the combination is in the dictionary
-                            if combo in dictionary:
-                                #     # Get the values from the dictionary
+                    def find_subset_key(dictionary, list_to_check, tuple_to_use):
+                        # print(list_to_check)
+                        for r in range(1, len(tuple_to_use) + 1):
+                            # Generate all combinations of the given length
+                            for combo in combinations(tuple_to_use, r):
+                                # Check if the combination is in the dictionary
+                                if combo in dictionary:
+                                    #     # Get the values from the dictionary
 
-                                values = list(dictionary[combo].values())
-                                #     # Check if each list in list_to_check is a subset of any value in values
-                                if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
-                                       list_to_check):
-                                    #         # If all lists are subsets, return the key (combination)
-                                    return combo
-                    # If no matching combination is found, return None
-                    return None
+                                    # values = list(dictionary[combo].values())
+                                    keys = list(dictionary[combo].keys())
+                                    # print("keys:")
+                                    # print(keys)
+                                    # print(values)
+                                    #     # Check if each list in list_to_check is a subset of any value in values
+                                    # if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
+                                    #        list_to_check):
+                                    #     #         # If all lists are subsets, return the key (combination)
+                                    #     return combo
+                                    for sublist in list_to_check:
+                                        is_subset = False
+                                        for key in keys:
+                                            if set(sublist).issubset(set(dictionary[combo][key])):
+                                                # 如果 sublist 是 value 的子集，标记为 True 并退出内层循环
+                                                # print(key)
+                                                self.condition[(CFD_0, CFD_1)] = [key]
+                                                is_subset = True
+                                                break
+                                        if not is_subset:
+                                            # 如果有任何一个 sublist 不是任何 value 的子集，则立即退出
+                                            break
+                                        else:
+                                        # 只有当所有 sublist 都是某个 value 的子集时，才执行以下代码
+                                        #     print(key)
+                                            self.condition[(CFD_0, CFD_1)].append(combo)
+                                            # print("ppp")
+                                            # print(self.condition[(CFD_0, CFD_1)])
 
-                comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
+                                            return combo
 
-                self.condition[(CFD_0,CFD_1)] = [comb]
+                        # If no matching combination is found, return None
+                        return None
 
-                for sublist in self.chi_squre_v[(CFD_0, CFD_1)]:
-                    for ele in self.res[comb]:
-                        if set(sublist).issubset(self.res[comb][ele]):
-                            # print(ele)
-                            self.condition[(CFD_0, CFD_1)].append(ele)
-                            break
+                    comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
+
+
 
 
 
@@ -356,8 +377,10 @@ class BFSTree:
         print("Condition:")
         # print(self.condition)
         for ele in self.condition:
+            # print(ResultMap(self.condition[ele],ele))
             print(ele)
             print(self.condition[ele])
+
 
 
 

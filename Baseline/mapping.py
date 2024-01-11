@@ -194,3 +194,30 @@ def mapData(File):
         if index2 == 1:
             break
     return mapped_data, continues_data
+
+def find_key_by_value(key_mapping_dict, value):
+    # 在字典中查找给定值，并返回相应的键
+    for key, val in key_mapping_dict.items():
+        if val == value:
+            return key
+    # 如果值在字典中不存在，返回None
+    return None
+
+def ResultMap(a1,b1):
+    string5 = "\""
+    string6 = "\""
+    for ele in b1[0]:
+        string5 = string5 + find_key_by_value(key_mapping_dict, ele) + ", "
+    for ele in b1[1]:
+        string6 = string6 + find_key_by_value(key_mapping_dict, ele) + ", "
+    # string6 = string5 + find_key_by_value(key_mapping_dict, b1[1][len(b1[1])-1]) + "\" "
+    string5 = string5 + "\" "
+    string6 = string6 + "\""
+    string7 = find_key_by_value(key_mapping_dict, a1[1][0])
+    string8 = find_key_by_value(mapping_dict[string7], a1[0])
+    # print(string5)
+    string1 = "If the column "
+    string2 = " is equal to "
+    string3 = ", then the column "
+    string4 = "will decide the column "
+    return string1 + string7 + string2 + string8 + string3 + string5 + string4 + string6

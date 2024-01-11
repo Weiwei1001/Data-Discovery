@@ -118,10 +118,56 @@
 # for item in mapped_result:
 #     print(item)
 
-candidate = [1, 1, 2]
-candi = tuple(candidate[:-1])
-# print(candi)
-X = {(0, 0): [0, 1, 2], (1, 0): [3], (1, 1): [4, 5]}
-Y = {((0, 0), 0): [0, 1], ((0, 0), 1): [2], ((1, 0), 1): [3], ((1, 1), 2): [4, 5]}
+from mapping import *
 
+
+b = ((0,), (0, 1))
+a = [(0,), 5]
+
+b1 = ((8, 7), (8, 6, 7))
+a1 = [(8,), 0]
+
+
+
+def find_key_by_value_test(key_mapping_dict, value):
+    # 在字典中查找给定值，并返回相应的键
+    for key, val in key_mapping_dict.items():
+        if val == value:
+            return key
+    # 如果值在字典中不存在，返回None
+    return None
+
+
+# key = find_key_by_value(key_mapping_dict, a[0][0])
+# print(mapping_dict[key])
+# key2 = find_key_by_value(mapping_dict[key],a[1])
+# print(key2)
+def ResultMap_test(a1,b1):
+    string5 = "\""
+    string6 = "\""
+    for ele in b1[0]:
+        string5 = string5 + find_key_by_value(key_mapping_dict, ele) + ", "
+    for ele in b1[1]:
+        string6 = string6 + find_key_by_value(key_mapping_dict, ele) + ", "
+    # string6 = string5 + find_key_by_value(key_mapping_dict, b1[1][len(b1[1])-1]) + "\" "
+    string5 = string5 + "\" "
+    string6 = string6 + "\""
+    string7 = find_key_by_value(key_mapping_dict, a1[1][0])
+    string8 = find_key_by_value(mapping_dict[string7], a1[0])
+    # print(string5)
+    string1 = "If the column "
+    string2 = " is equal to "
+    string3 = ", then the column "
+    string4 = "will decide the column "
+    return string1 + string7 + string2 + string8 + string3 + string5 + string4 + string6
+# print(mapping_dict[key][key2])
+
+
+
+
+c = ((0,), (0, 2))
+d = [5, (0,)]
+
+# print(ResultMap_test(b,a))
+print(ResultMap_test(d,c))
 
