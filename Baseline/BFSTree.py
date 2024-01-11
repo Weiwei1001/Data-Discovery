@@ -39,6 +39,7 @@ class BFSTree:
         generate_combinations(self.root, set(range(n)))
 
         def create_value_index_dict(matrix):
+            # print(matrix)
             result = []
             for row in matrix:
                 value_dict = {}
@@ -55,6 +56,8 @@ class BFSTree:
         i = 0
         for data_dict in create_value_index_dict(self.raw):
             key = (i,)  # 使用单元素元组表示索引
+            # if i == 3:
+            #     print(data_dict)
             self.res[key] = data_dict
             i = i + 1
 
@@ -223,22 +226,24 @@ class BFSTree:
 
                                     # values = list(dictionary[combo].values())
                                     keys = list(dictionary[combo].keys())
-                                    # print("keys:")
-                                    # print(keys)
-                                    # print(values)
-                                    #     # Check if each list in list_to_check is a subset of any value in values
-                                    # if all(any(set(sublist).issubset(set(value)) for value in values) for sublist in
-                                    #        list_to_check):
-                                    #     #         # If all lists are subsets, return the key (combination)
-                                    #     return combo
+
                                     for sublist in list_to_check:
                                         is_subset = False
+
                                         for key in keys:
+                                            # if (CFD_0, CFD_1) == ((3,), (0, 3)):
+                                                # print(sublist)
+                                                # print(dictionary[combo][key])
+                                                # print(key)
                                             if set(sublist).issubset(set(dictionary[combo][key])):
                                                 # 如果 sublist 是 value 的子集，标记为 True 并退出内层循环
                                                 # print(key)
                                                 self.condition[(CFD_0, CFD_1)] = [key]
                                                 is_subset = True
+                                                # br = [2, (2,)]
+                                                # if br == []
+                                                # if (CFD_0, CFD_1) == ((3,), (0, 3)):
+                                                #     print(dictionary[combo][key])
                                                 break
                                         if not is_subset:
                                             # 如果有任何一个 sublist 不是任何 value 的子集，则立即退出
@@ -246,6 +251,14 @@ class BFSTree:
                                         else:
                                         # 只有当所有 sublist 都是某个 value 的子集时，才执行以下代码
                                         #     print(key)
+                                        #
+                                        # [2, (2,)]
+                                        #     if (CFD_0, CFD_1) == ((3,), (0, 3)):
+                                            # if combo == bre:
+                                            #     print("Wrong")
+                                            #     print(CFD)
+                                            #     print(sublist)
+
                                             self.condition[(CFD_0, CFD_1)].append(combo)
                                             # print("ppp")
                                             # print(self.condition[(CFD_0, CFD_1)])
@@ -276,22 +289,26 @@ class BFSTree:
         while queue:
             current_node = queue.pop(0)
           # 处理当前节点的值
+          #   print(self.res)
+            # return
             for child in current_node.children:
                 queue.append(child)
                 current_node_v = current_node.value
                 child_v = child.value
                 #not the empty decide the single ele
                 if(len(current_node.value) != 0):
+
                     CFD = (set(current_node_v),set(child_v))
-                    # print(CFDS)
+                    # print(CFD)
+
                     if CFD not in CFDS_res:
 
                         CFDS_res.append(CFD)
                         # if CFD not in self.res:
                         def get_OX(CFD):
+
                             index1 = CFD[0]
                             index2 = CFD[1]
-
 
                             X = self.res[tuple(index1)]
                             Y = self.res[tuple(index2.difference(index1))]
@@ -307,6 +324,7 @@ class BFSTree:
                             # if not, generate one and store the into the res
                             # print("kkkkk")
                             # print("*"*700)
+
                             return index2, summed(X, Y)
 
                         def isFD(X, Y):
@@ -377,7 +395,7 @@ class BFSTree:
         print("Condition:")
         # print(self.condition)
         for ele in self.condition:
-            # print(ResultMap(self.condition[ele],ele))
+            print(ResultMap(self.condition[ele],ele))
             print(ele)
             print(self.condition[ele])
 

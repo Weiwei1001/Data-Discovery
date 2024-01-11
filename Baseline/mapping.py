@@ -1,12 +1,12 @@
 key_mapping_dict = {
-    'marital-status': 0,
-    'occupation': 1,
-    'relationship': 2,
-    'race': 3,
-    'sex': 4,
-    'education': 5,
-    'native-country': 6,
-    'workclass': 7,
+    'marital-status': 2,
+    'occupation': 3,
+    'relationship': 4,
+    'race': 5,
+    'sex': 6,
+    'education': 1,
+    'native-country': 7,
+    'workclass': 0,
     'class': 8,
     'education-num': 9,
     'capital-gain' : 10,
@@ -178,21 +178,18 @@ def mapData(File):
 
             if attribute in mapping_dict:
                 if isinstance(mapping_dict[attribute], dict):
+                    # print(mapping_dict[attribute])
                     mapped_data[index].append(mapping_dict[attribute].get(value, default_mapping))
                     index = (index + 1) % len(mapped_data)
-                    # 使用默认映射规则来处理未知值
-                    # print(attribute)
-                    # print(mapping_dict[attribute].get(value, default_mapping))
-                    # mapped_values.append(f"{attribute}: {mapping_dict[attribute].get(value, default_mapping)}")
                 else:
                     continues_data[index3].append(value)
                     index3 = (index3 + 1) % len(continues_data)
                     # mapped_values.append(f"{attribute}: {mapping_dict[attribute]}")
-            if index == 8:
-                index2 = index2 + 1
-
-        if index2 == 1:
-            break
+        #     if index == 8:
+        #         index2 = index2 + 1
+        #
+        # if index2 == 1:
+        #     break
     return mapped_data, continues_data
 
 def find_key_by_value(key_mapping_dict, value):
