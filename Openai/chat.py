@@ -172,7 +172,10 @@ class OpenAIInterface:
     def analysis_data(self, attribute_list):
         def convert_and_analyze(data):
             # 将字符串列表转换为整数列表
-            int_list = [int(item) for item in data]
+            int_list = []
+            for item in data:
+                if item != '':
+                    int_list.append(int(item))
 
             if not int_list:
                 return None  # 空列表时返回 None
@@ -193,6 +196,7 @@ class OpenAIInterface:
             return max_value, min_value, average, median
         analysis = []
         for i in range(len(attribute_list)):
+            print(type(attribute_list[i]))
             analysis.append([])
             analysis[i] = convert_and_analyze(attribute_list[i])
         return analysis
