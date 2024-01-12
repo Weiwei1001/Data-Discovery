@@ -202,11 +202,8 @@ class BFSTree:
 
 
 
-    def find_condition(self, X, A, Y, CFD, seq):
-
-        # print("*"*80)
-
-        # self.chi_squre_v[tuple(CFD)] = []
+    def find_condition(self, X, A , CFD):
+        print(CFD)
         CFD_0 = tuple(CFD[0])
         CFD_1 = tuple(CFD[1])
         # print(CFD)
@@ -231,51 +228,21 @@ class BFSTree:
                                         is_subset = False
 
                                         for key in keys:
-                                            # if (CFD_0, CFD_1) == ((3,), (0, 3)):
-                                                # print(sublist)
-                                                # print(dictionary[combo][key])
-                                                # print(key)
                                             if set(sublist).issubset(set(dictionary[combo][key])):
-                                                # 如果 sublist 是 value 的子集，标记为 True 并退出内层循环
-                                                # print(key)
                                                 self.condition[(CFD_0, CFD_1)] = [key]
                                                 is_subset = True
-                                                # br = [2, (2,)]
-                                                # if br == []
-                                                # if (CFD_0, CFD_1) == ((3,), (0, 3)):
-                                                #     print(dictionary[combo][key])
                                                 break
                                         if not is_subset:
                                             # 如果有任何一个 sublist 不是任何 value 的子集，则立即退出
                                             break
                                         else:
-                                        # 只有当所有 sublist 都是某个 value 的子集时，才执行以下代码
-                                        #     print(key)
-                                        #
-                                        # [2, (2,)]
-                                        #     if (CFD_0, CFD_1) == ((3,), (0, 3)):
-                                            # if combo == bre:
-                                            #     print("Wrong")
-                                            #     print(CFD)
-                                            #     print(sublist)
-
                                             self.condition[(CFD_0, CFD_1)].append(combo)
-                                            # print("ppp")
-                                            # print(self.condition[(CFD_0, CFD_1)])
-
                                             return combo
 
                         # If no matching combination is found, return None
                         return None
 
                     comb = find_subset_key(self.res,self.chi_squre_v[(CFD_0, CFD_1)] , CFD_0)
-
-
-
-
-
-
-
 
 
     def bfs_traversal(self):
@@ -349,7 +316,7 @@ class BFSTree:
 
                         A = set(child_v).difference(set(current_node_v))
                         # print("*" * 800)
-                        self.find_condition(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate,CFD,list(seq))
+                        self.find_condition(self.res[tuple(current_node_v)], self.res[tuple(A)], CFD)
                         # self.interest.chi_squre(self.res[tuple(current_node_v)], self.res[tuple(A)], candidate, CFD,list(seq))
                         # self.interest.support(self.res[tuple(current_node_v)],candidate)
                         self.res[tuple(child_v)] = candidate
@@ -395,7 +362,11 @@ class BFSTree:
         print("Condition:")
         # print(self.condition)
         for ele in self.condition:
-            print(ResultMap(self.condition[ele],ele))
+            #
+            try:
+                print(ResultMap(self.condition[ele], ele))
+            except Exception as e:
+                print(f"Failed to run the function: {self.condition[ele]}")
             print(ele)
             print(self.condition[ele])
 

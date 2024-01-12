@@ -309,7 +309,7 @@ def get_llm_suggest(suggestion):
 
 # get_llm_suggest()
     CFD = map2CFDs(map_attributes(key_mapping_dict,mapping_dict,processed_text))
-    print(CFD)
+    # print(CFD)
 # get_llm_suggest(example_text_2)
     unique_tuples = set(tuple((tuple(pair[0]), tuple(pair[1]))) for pair in CFD)
     #
